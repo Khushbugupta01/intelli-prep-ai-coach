@@ -1,10 +1,9 @@
-
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Brain, Mic, FileText, BarChart3, Users, Award, ArrowRight, CheckCircle, Star, Play } from "lucide-react";
+import { Brain, Mic, FileText, BarChart3, Users, Award, ArrowRight, CheckCircle, Star, Play, Eye, Target } from "lucide-react";
 import { toast } from "sonner";
 
 const Index = () => {
@@ -13,9 +12,9 @@ const Index = () => {
 
   const handleStartInterview = async () => {
     setIsStarting(true);
-    toast.success("Initializing interview preparation...");
+    toast.success("Initializing advanced interview preparation...");
     setTimeout(() => {
-      navigate("/interview");
+      navigate("/dashboard");
       setIsStarting(false);
     }, 1500);
   };
@@ -104,14 +103,14 @@ const Index = () => {
       <section className="py-20 px-6">
         <div className="container mx-auto text-center max-w-4xl">
           <Badge className="mb-6 bg-blue-100 text-blue-700 hover:bg-blue-200">
-            AI-Powered Interview Preparation
+            Next-Generation AI Interview Preparation
           </Badge>
           <h2 className="text-5xl font-bold mb-6 bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-600 bg-clip-text text-transparent leading-tight">
-            Master Your Next Interview with AI
+            Master Interviews with Advanced AI Analysis
           </h2>
           <p className="text-xl text-gray-600 mb-8 leading-relaxed">
-            Get personalized feedback on your interview performance using advanced AI technology. 
-            Practice with voice or text, upload your resume for custom questions, and receive detailed reports.
+            Experience cutting-edge interview preparation with real-time voice analysis, facial expression recognition, 
+            and comprehensive performance metrics. Get personalized feedback that adapts to your unique style.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <Button 
@@ -121,11 +120,11 @@ const Index = () => {
               className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-lg px-8 py-3 h-auto"
             >
               {isStarting ? (
-                "Starting..."
+                "Initializing AI..."
               ) : (
                 <>
                   <Play className="mr-2 h-5 w-5" />
-                  Start Interview Prep
+                  Launch Dashboard
                   <ArrowRight className="ml-2 h-5 w-5" />
                 </>
               )}
@@ -143,16 +142,18 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Features Section */}
+      {/* Enhanced Features Section */}
       <section className="py-20 px-6 bg-white/50">
         <div className="container mx-auto">
           <div className="text-center mb-16">
-            <h3 className="text-3xl font-bold mb-4">Why Choose INTELLI-PREP?</h3>
+            <h3 className="text-3xl font-bold mb-4">Advanced AI-Powered Features</h3>
             <p className="text-gray-600 max-w-2xl mx-auto">
-              Our AI-powered platform provides comprehensive interview preparation with features designed to boost your confidence and performance.
+              Experience the next generation of interview preparation with cutting-edge AI technology that analyzes every aspect of your performance.
             </p>
           </div>
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          
+          {/* Enhanced Features Grid */}
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
             {features.map((feature, index) => (
               <Card key={index} className="hover:shadow-lg transition-all duration-300 hover:-translate-y-1 border-0 bg-white/80 backdrop-blur-sm">
                 <CardHeader>
@@ -166,6 +167,31 @@ const Index = () => {
                 </CardContent>
               </Card>
             ))}
+          </div>
+
+          {/* New Advanced Features */}
+          <div className="grid md:grid-cols-3 gap-6">
+            <Card className="bg-gradient-to-br from-blue-600 to-purple-600 text-white">
+              <CardContent className="p-6">
+                <Eye className="h-8 w-8 mb-4" />
+                <h3 className="text-xl font-bold mb-2">Real-time Analysis</h3>
+                <p className="text-blue-100">Live feedback on eye contact, posture, and confidence levels during your interview.</p>
+              </CardContent>
+            </Card>
+            <Card className="bg-gradient-to-br from-green-600 to-blue-600 text-white">
+              <CardContent className="p-6">
+                <Brain className="h-8 w-8 mb-4" />
+                <h3 className="text-xl font-bold mb-2">Advanced Scoring</h3>
+                <p className="text-green-100">Multi-dimensional analysis of verbal and non-verbal communication patterns.</p>
+              </CardContent>
+            </Card>
+            <Card className="bg-gradient-to-br from-purple-600 to-pink-600 text-white">
+              <CardContent className="p-6">
+                <Target className="h-8 w-8 mb-4" />
+                <h3 className="text-xl font-bold mb-2">Performance Tracking</h3>
+                <p className="text-purple-100">Comprehensive dashboard with progress analytics and improvement suggestions.</p>
+              </CardContent>
+            </Card>
           </div>
         </div>
       </section>
