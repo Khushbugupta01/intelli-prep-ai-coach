@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -185,7 +184,7 @@ const Feedback = () => {
               {Object.entries(feedbackData.overallScores).map(([key, value]) => (
                 <div key={key} className="text-center">
                   <div className={`text-2xl font-semibold ${getScoreColor(value as number)}`}>
-                    {value}
+                    {value as number}
                   </div>
                   <div className="text-sm text-gray-600 capitalize">
                     {key}
@@ -241,7 +240,7 @@ const Feedback = () => {
                     {Object.entries(feedback.scores).map(([skill, score]) => (
                       <div key={skill} className="text-center">
                         <div className={`text-xl font-semibold ${getScoreColor(score as number)}`}>
-                          {score}
+                          {score as number}
                         </div>
                         <div className="text-sm text-gray-600 capitalize">{skill}</div>
                         <Progress value={score as number} className="mt-1" />
@@ -285,7 +284,7 @@ const Feedback = () => {
                       <div className="flex items-center justify-between mb-2">
                         <span className="font-medium capitalize">{skill}</span>
                         <span className={`font-semibold ${getScoreColor(score as number)}`}>
-                          {score}/100
+                          {score as number}/100
                         </span>
                       </div>
                       <Progress value={score as number} className="h-3" />
