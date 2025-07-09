@@ -5,7 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { InterviewAnalytics } from "./InterviewAnalytics";
-import { Brain, Calendar, Clock, Target, TrendingUp, User, Award } from "lucide-react";
+import { Brain, Calendar, Clock, Target, TrendingUp, User, Award, Check, Zap, Crown, Star } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 const mockAnalyticsData = {
@@ -42,6 +42,57 @@ const achievements = [
   { id: 6, title: "Interview Legend", description: "Complete 50 interviews", earned: false, icon: Award }
 ];
 
+const pricingPlans = [
+  {
+    name: "Basic",
+    price: "$9",
+    period: "month",
+    description: "Perfect for getting started",
+    features: [
+      "5 mock interviews per month",
+      "Basic AI feedback",
+      "Performance tracking",
+      "Email support"
+    ],
+    popular: false,
+    icon: Target
+  },
+  {
+    name: "Premium",
+    price: "$19",
+    period: "month",
+    description: "Best for serious job seekers",
+    features: [
+      "Unlimited mock interviews",
+      "Advanced AI analysis",
+      "Real-time voice feedback",
+      "Facial expression analysis",
+      "Custom question generation",
+      "Priority support",
+      "Progress analytics"
+    ],
+    popular: true,
+    icon: Zap
+  },
+  {
+    name: "Enterprise",
+    price: "$49",
+    period: "month",
+    description: "For teams and organizations",
+    features: [
+      "Everything in Premium",
+      "Team management",
+      "Custom branding",
+      "API access",
+      "Advanced reporting",
+      "Dedicated support",
+      "Custom integrations"
+    ],
+    popular: false,
+    icon: Crown
+  }
+];
+
 export const InterviewDashboard = () => {
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState("overview");
@@ -55,16 +106,17 @@ export const InterviewDashboard = () => {
         </div>
 
         <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-          <TabsList className="grid w-full grid-cols-4">
+          <TabsList className="grid w-full grid-cols-5">
             <TabsTrigger value="overview">Overview</TabsTrigger>
             <TabsTrigger value="analytics">Analytics</TabsTrigger>
             <TabsTrigger value="schedule">Schedule</TabsTrigger>
             <TabsTrigger value="achievements">Achievements</TabsTrigger>
+            <TabsTrigger value="pricing">Pricing</TabsTrigger>
           </TabsList>
 
           <TabsContent value="overview" className="space-y-6">
+            {/* Quick Actions */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {/* Quick Actions */}
               <Card className="md:col-span-2">
                 <CardHeader>
                   <CardTitle>Quick Actions</CardTitle>
@@ -205,6 +257,84 @@ export const InterviewDashboard = () => {
                       </div>
                     );
                   })}
+                </div>
+              </CardContent>
+            </Card>
+          </TabsContent>
+
+          <TabsContent value="pricing" className="space-y-6">
+            <Card>
+              <CardHeader>
+                <CardTitle>Choose Your Plan</CardTitle>
+                <p className="text-muted-foreground">
+                  Upgrade your interview preparation with advanced features
+                </p>
+              </CardHeader>
+              <CardContent>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                  {pricingPlans.map((plan) => {
+                    const IconComponent = plan.icon;
+                    return (
+                      <div
+                        key={plan.name}
+                        className={`relative p-6 border rounded-lg transition-all hover:shadow-lg ${
+                          plan.popular
+                            ? "border-blue-500 bg-blue-50"
+                            : "border-gray-200 bg-white"
+                        }`}
+                      >
+                        {plan.popular && (
+                          <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
+                            <Badge className="bg-blue-600 text-white px-3 py-1">
+                              <Star className="h-3 w-3 mr-1" />
+                              Most Popular
+                            </Badge>
+                          </div>
+                        )}
+                        
+                        <div className="text-center mb-6">
+                          <IconComponent className="h-8 w-8 mx-auto mb-3 text-blue-600" />
+                          <h3 className="text-xl font-bold">{plan.name}</h3>
+                          <p className="text-muted-foreground text-sm mb-4">{plan.description}</p>
+                          <div className="flex items-baseline justify-center">
+                            <span className="text-3xl font-bold">{plan.price}</span>
+                            <span className="text-muted-foreground ml-1">/{plan.period}</span>
+                          </div>
+                        </div>
+
+                        <ul className="space-y-3 mb-6">
+                          {plan.features.map((feature, index) => (
+                            <li key={index} className="flex items-center text-sm">
+                              <Check className="h-4 w-4 text-green-600 mr-2 flex-shrink-0" />
+                              {feature}
+                            </li>
+                          ))}
+                        </ul>
+
+                        <Button
+                          className={`w-full ${
+                            plan.popular
+                              ? "bg-blue-600 hover:bg-blue-700"
+                              : "variant-outline"
+                          }`}
+                          variant={plan.popular ? "default" : "outline"}
+                        >
+                          {plan.name === "Basic" ? "Get Started" : plan.name === "Premium" ? "Upgrade Now" : "Contact Sales"}
+                        </Button>
+                      </div>
+                    );
+                  })}
+                </div>
+
+                <div className="mt-8 text-center">
+                  <p className="text-sm text-muted-foreground mb-4">
+                    All plans include a 14-day free trial. Cancel anytime.
+                  </p>
+                  <div className="flex justify-center space-x-6 text-sm text-muted-foreground">
+                    <span>✓ No setup fees</span>
+                    <span>✓ Cancel anytime</span>
+                    <span>✓ 24/7 support</span>
+                  </div>
                 </div>
               </CardContent>
             </Card>
