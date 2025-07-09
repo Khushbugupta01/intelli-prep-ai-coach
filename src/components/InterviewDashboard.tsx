@@ -1,12 +1,14 @@
 
 import { useState } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { InterviewAnalytics } from "./InterviewAnalytics";
-import { Brain, Calendar, Clock, Target, TrendingUp, User, Award, Check, Zap, Crown, Star } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import { Brain, Calendar, Target, TrendingUp, User, Award, Zap, Crown } from "lucide-react";
+import { QuickActions } from "./dashboard/QuickActions";
+import { TodaysGoal } from "./dashboard/TodaysGoal";
+import { RecentActivity } from "./dashboard/RecentActivity";
+import { UpcomingInterviews } from "./dashboard/UpcomingInterviews";
+import { Achievements } from "./dashboard/Achievements";
+import { PricingPlans } from "./dashboard/PricingPlans";
 
 const mockAnalyticsData = {
   totalInterviews: 12,
@@ -94,7 +96,6 @@ const pricingPlans = [
 ];
 
 export const InterviewDashboard = () => {
-  const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState("overview");
 
   return (
@@ -115,74 +116,11 @@ export const InterviewDashboard = () => {
           </TabsList>
 
           <TabsContent value="overview" className="space-y-6">
-            {/* Quick Actions */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              <Card className="md:col-span-2">
-                <CardHeader>
-                  <CardTitle>Quick Actions</CardTitle>
-                </CardHeader>
-                <CardContent className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <Button 
-                    onClick={() => navigate("/interview")} 
-                    className="h-24 flex-col gap-2"
-                    size="lg"
-                  >
-                    <Brain className="h-6 w-6" />
-                    Start Mock Interview
-                  </Button>
-                  <Button 
-                    variant="outline" 
-                    onClick={() => navigate("/upload")} 
-                    className="h-24 flex-col gap-2"
-                    size="lg"
-                  >
-                    <Target className="h-6 w-6" />
-                    Upload Resume
-                  </Button>
-                </CardContent>
-              </Card>
-
-              {/* Today's Goal */}
-              <Card>
-                <CardHeader>
-                  <CardTitle className="text-lg">Today's Goal</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="text-center">
-                    <div className="text-2xl font-bold text-blue-600 mb-2">2/3</div>
-                    <p className="text-sm text-muted-foreground">Practice Sessions</p>
-                    <Button variant="outline" size="sm" className="mt-3">
-                      Complete Goal
-                    </Button>
-                  </div>
-                </CardContent>
-              </Card>
+              <QuickActions />
+              <TodaysGoal />
             </div>
-
-            {/* Recent Activity */}
-            <Card>
-              <CardHeader>
-                <CardTitle>Recent Activity</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
-                  {mockAnalyticsData.recentPerformance.slice(0, 3).map((performance, index) => (
-                    <div key={index} className="flex items-center justify-between p-4 bg-muted rounded-lg">
-                      <div className="flex items-center gap-4">
-                        <Clock className="h-5 w-5 text-muted-foreground" />
-                        <div>
-                          <p className="font-medium">{performance.type} Interview</p>
-                          <p className="text-sm text-muted-foreground">{performance.date}</p>
-                        </div>
-                      </div>
-                      <Badge variant={performance.score >= 80 ? "default" : "secondary"}>
-                        {performance.score}%
-                      </Badge>
-                    </div>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
+            <RecentActivity recentPerformance={mockAnalyticsData.recentPerformance} />
           </TabsContent>
 
           <TabsContent value="analytics">
@@ -190,154 +128,15 @@ export const InterviewDashboard = () => {
           </TabsContent>
 
           <TabsContent value="schedule" className="space-y-6">
-            <Card>
-              <CardHeader>
-                <CardTitle>Upcoming Interviews</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
-                  {upcomingInterviews.map((interview) => (
-                    <div key={interview.id} className="flex items-center justify-between p-4 border rounded-lg">
-                      <div className="flex items-center gap-4">
-                        <Calendar className="h-5 w-5 text-blue-600" />
-                        <div>
-                          <p className="font-medium">{interview.company} - {interview.role}</p>
-                          <p className="text-sm text-muted-foreground">
-                            {interview.date} at {interview.time}
-                          </p>
-                        </div>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <Badge variant={interview.type === "Technical" ? "default" : "secondary"}>
-                          {interview.type}
-                        </Badge>
-                        <Button variant="outline" size="sm">
-                          Practice
-                        </Button>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
+            <UpcomingInterviews interviews={upcomingInterviews} />
           </TabsContent>
 
           <TabsContent value="achievements" className="space-y-6">
-            <Card>
-              <CardHeader>
-                <CardTitle>Your Achievements</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                  {achievements.map((achievement) => {
-                    const IconComponent = achievement.icon;
-                    return (
-                      <div
-                        key={achievement.id}
-                        className={`p-4 border rounded-lg transition-all ${
-                          achievement.earned
-                            ? "bg-green-50 border-green-200"
-                            : "bg-gray-50 border-gray-200 opacity-60"
-                        }`}
-                      >
-                        <div className="flex items-center gap-3 mb-3">
-                          <IconComponent
-                            className={`h-6 w-6 ${
-                              achievement.earned ? "text-green-600" : "text-gray-400"
-                            }`}
-                          />
-                          <h3 className="font-medium">{achievement.title}</h3>
-                        </div>
-                        <p className="text-sm text-muted-foreground">{achievement.description}</p>
-                        {achievement.earned && (
-                          <Badge variant="default" className="mt-2">
-                            Earned
-                          </Badge>
-                        )}
-                      </div>
-                    );
-                  })}
-                </div>
-              </CardContent>
-            </Card>
+            <Achievements achievements={achievements} />
           </TabsContent>
 
           <TabsContent value="pricing" className="space-y-6">
-            <Card>
-              <CardHeader>
-                <CardTitle>Choose Your Plan</CardTitle>
-                <p className="text-muted-foreground">
-                  Upgrade your interview preparation with advanced features
-                </p>
-              </CardHeader>
-              <CardContent>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                  {pricingPlans.map((plan) => {
-                    const IconComponent = plan.icon;
-                    return (
-                      <div
-                        key={plan.name}
-                        className={`relative p-6 border rounded-lg transition-all hover:shadow-lg ${
-                          plan.popular
-                            ? "border-blue-500 bg-blue-50"
-                            : "border-gray-200 bg-white"
-                        }`}
-                      >
-                        {plan.popular && (
-                          <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
-                            <Badge className="bg-blue-600 text-white px-3 py-1">
-                              <Star className="h-3 w-3 mr-1" />
-                              Most Popular
-                            </Badge>
-                          </div>
-                        )}
-                        
-                        <div className="text-center mb-6">
-                          <IconComponent className="h-8 w-8 mx-auto mb-3 text-blue-600" />
-                          <h3 className="text-xl font-bold">{plan.name}</h3>
-                          <p className="text-muted-foreground text-sm mb-4">{plan.description}</p>
-                          <div className="flex items-baseline justify-center">
-                            <span className="text-3xl font-bold">{plan.price}</span>
-                            <span className="text-muted-foreground ml-1">/{plan.period}</span>
-                          </div>
-                        </div>
-
-                        <ul className="space-y-3 mb-6">
-                          {plan.features.map((feature, index) => (
-                            <li key={index} className="flex items-center text-sm">
-                              <Check className="h-4 w-4 text-green-600 mr-2 flex-shrink-0" />
-                              {feature}
-                            </li>
-                          ))}
-                        </ul>
-
-                        <Button
-                          className={`w-full ${
-                            plan.popular
-                              ? "bg-blue-600 hover:bg-blue-700"
-                              : "variant-outline"
-                          }`}
-                          variant={plan.popular ? "default" : "outline"}
-                        >
-                          {plan.name === "Basic" ? "Get Started" : plan.name === "Premium" ? "Upgrade Now" : "Contact Sales"}
-                        </Button>
-                      </div>
-                    );
-                  })}
-                </div>
-
-                <div className="mt-8 text-center">
-                  <p className="text-sm text-muted-foreground mb-4">
-                    All plans include a 14-day free trial. Cancel anytime.
-                  </p>
-                  <div className="flex justify-center space-x-6 text-sm text-muted-foreground">
-                    <span>✓ No setup fees</span>
-                    <span>✓ Cancel anytime</span>
-                    <span>✓ 24/7 support</span>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
+            <PricingPlans plans={pricingPlans} />
           </TabsContent>
         </Tabs>
       </div>
