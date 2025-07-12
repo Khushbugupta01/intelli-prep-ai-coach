@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { InterviewAnalytics } from "./InterviewAnalytics";
@@ -9,6 +8,8 @@ import { RecentActivity } from "./dashboard/RecentActivity";
 import { UpcomingInterviews } from "./dashboard/UpcomingInterviews";
 import { Achievements } from "./dashboard/Achievements";
 import { PricingPlans } from "./dashboard/PricingPlans";
+import { Button } from "@/components/ui/button";
+import { useNavigate } from "react-router-dom";
 
 const mockAnalyticsData = {
   totalInterviews: 12,
@@ -97,13 +98,22 @@ const pricingPlans = [
 
 export const InterviewDashboard = () => {
   const [activeTab, setActiveTab] = useState("overview");
+  const navigate = useNavigate();
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-purple-50 p-6">
       <div className="container mx-auto max-w-7xl">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold mb-2">Interview Dashboard</h1>
-          <p className="text-muted-foreground">Track your progress and improve your interview skills</p>
+          <div className="flex items-center justify-between">
+            <div>
+              <h1 className="text-3xl font-bold mb-2">Interview Dashboard</h1>
+              <p className="text-muted-foreground">Track your progress and improve your interview skills</p>
+            </div>
+            <Button onClick={() => navigate("/profile")} variant="outline">
+              <User className="mr-2 h-4 w-4" />
+              My Profile
+            </Button>
+          </div>
         </div>
 
         <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
