@@ -1,14 +1,16 @@
+
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Brain, Mic, FileText, BarChart3, Users, Award, ArrowRight, CheckCircle, Star, Play, Eye, Target } from "lucide-react";
+import { Brain, Mic, FileText, BarChart3, Users, Award, ArrowRight, CheckCircle, Star, Play, Eye, Target, Menu, X } from "lucide-react";
 import { toast } from "sonner";
 
 const Index = () => {
   const navigate = useNavigate();
   const [isStarting, setIsStarting] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const handleStartInterview = async () => {
     setIsStarting(true);
@@ -87,15 +89,59 @@ const Index = () => {
                 INTELLI-PREP
               </h1>
             </div>
-            <div className="flex items-center space-x-4">
+
+            {/* Desktop Navigation */}
+            <nav className="hidden md:flex items-center space-x-8">
+              <Button variant="ghost" onClick={() => navigate("/how-it-works")}>
+                How It Works
+              </Button>
+              <Button variant="ghost" onClick={() => navigate("/pricing")}>
+                Pricing
+              </Button>
+              <Button variant="ghost" onClick={() => navigate("/faq")}>
+                FAQ
+              </Button>
               <Button variant="ghost" onClick={() => navigate("/login")}>
                 Login
               </Button>
               <Button onClick={() => navigate("/signup")} className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700">
                 Sign Up
               </Button>
-            </div>
+            </nav>
+
+            {/* Mobile Menu Button */}
+            <Button
+              variant="ghost"
+              size="sm"
+              className="md:hidden"
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            >
+              {isMobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+            </Button>
           </div>
+
+          {/* Mobile Navigation */}
+          {isMobileMenuOpen && (
+            <div className="md:hidden mt-4 pb-4 border-t pt-4">
+              <nav className="flex flex-col space-y-2">
+                <Button variant="ghost" onClick={() => navigate("/how-it-works")} className="justify-start">
+                  How It Works
+                </Button>
+                <Button variant="ghost" onClick={() => navigate("/pricing")} className="justify-start">
+                  Pricing
+                </Button>
+                <Button variant="ghost" onClick={() => navigate("/faq")} className="justify-start">
+                  FAQ
+                </Button>
+                <Button variant="ghost" onClick={() => navigate("/login")} className="justify-start">
+                  Login
+                </Button>
+                <Button onClick={() => navigate("/signup")} className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 justify-start">
+                  Sign Up
+                </Button>
+              </nav>
+            </div>
+          )}
         </div>
       </header>
 
@@ -246,14 +292,44 @@ const Index = () => {
       {/* Footer */}
       <footer className="bg-gray-900 text-white py-12 px-6">
         <div className="container mx-auto">
-          <div className="flex flex-col md:flex-row justify-between items-center">
-            <div className="flex items-center space-x-3 mb-4 md:mb-0">
-              <div className="h-8 w-8 bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg flex items-center justify-center">
-                <Brain className="h-5 w-5 text-white" />
+          <div className="grid md:grid-cols-4 gap-8 mb-8">
+            <div className="col-span-2">
+              <div className="flex items-center space-x-3 mb-4">
+                <div className="h-8 w-8 bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg flex items-center justify-center">
+                  <Brain className="h-5 w-5 text-white" />
+                </div>
+                <span className="text-xl font-bold">INTELLI-PREP</span>
               </div>
-              <span className="text-xl font-bold">INTELLI-PREP</span>
+              <p className="text-gray-400 mb-4">
+                Advanced AI-powered interview preparation platform helping professionals land their dream jobs.
+              </p>
             </div>
+            
+            <div>
+              <h4 className="font-semibold mb-4">Product</h4>
+              <ul className="space-y-2 text-gray-400">
+                <li><Button variant="link" className="p-0 h-auto text-gray-400 hover:text-white" onClick={() => navigate("/how-it-works")}>How It Works</Button></li>
+                <li><Button variant="link" className="p-0 h-auto text-gray-400 hover:text-white" onClick={() => navigate("/pricing")}>Pricing</Button></li>
+                <li><Button variant="link" className="p-0 h-auto text-gray-400 hover:text-white" onClick={() => navigate("/dashboard")}>Dashboard</Button></li>
+              </ul>
+            </div>
+            
+            <div>
+              <h4 className="font-semibold mb-4">Support</h4>
+              <ul className="space-y-2 text-gray-400">
+                <li><Button variant="link" className="p-0 h-auto text-gray-400 hover:text-white" onClick={() => navigate("/faq")}>FAQ</Button></li>
+                <li><Button variant="link" className="p-0 h-auto text-gray-400 hover:text-white">Contact Us</Button></li>
+                <li><Button variant="link" className="p-0 h-auto text-gray-400 hover:text-white">Support</Button></li>
+              </ul>
+            </div>
+          </div>
+          
+          <div className="border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center">
             <p className="text-gray-400">© 2024 INTELLI-PREP. All rights reserved.</p>
+            <div className="flex space-x-4 mt-4 md:mt-0">
+              <Button variant="link" className="p-0 h-auto text-gray-400 hover:text-white">Privacy Policy</Button>
+              <Button variant="link" className="p-0 h-auto text-gray-400 hover:text-white">Terms of Service</Button>
+            </div>
           </div>
         </div>
       </footer>
