@@ -1,9 +1,9 @@
-
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { ThemeToggle } from "@/components/ThemeToggle";
 import { Brain, Mic, FileText, BarChart3, Users, Award, ArrowRight, CheckCircle, Star, Play, Eye, Target, Menu, X } from "lucide-react";
 import { toast } from "sonner";
 
@@ -23,32 +23,32 @@ const Index = () => {
 
   const features = [
     {
-      icon: <Brain className="h-8 w-8 text-blue-600" />,
+      icon: <Brain className="h-8 w-8 text-blue-600 dark:text-blue-400" />,
       title: "AI-Powered Analysis",
       description: "Advanced AI algorithms analyze your responses for grammar, fluency, and confidence levels"
     },
     {
-      icon: <Mic className="h-8 w-8 text-green-600" />,
+      icon: <Mic className="h-8 w-8 text-green-600 dark:text-green-400" />,
       title: "Voice & Text Input",
       description: "Practice with both voice recordings and text responses for maximum flexibility"
     },
     {
-      icon: <FileText className="h-8 w-8 text-purple-600" />,
+      icon: <FileText className="h-8 w-8 text-purple-600 dark:text-purple-400" />,
       title: "Resume Analysis",
       description: "Upload your resume to generate personalized interview questions tailored to your experience"
     },
     {
-      icon: <BarChart3 className="h-8 w-8 text-orange-600" />,
+      icon: <BarChart3 className="h-8 w-8 text-orange-600 dark:text-orange-400" />,
       title: "Detailed Performance Reports",
       description: "Comprehensive feedback reports with actionable insights and improvement recommendations"
     },
     {
-      icon: <Users className="h-8 w-8 text-red-600" />,
+      icon: <Users className="h-8 w-8 text-red-600 dark:text-red-400" />,
       title: "HR & Technical Interviews",
       description: "Practice both behavioral and technical interview scenarios across various industries"
     },
     {
-      icon: <Award className="h-8 w-8 text-indigo-600" />,
+      icon: <Award className="h-8 w-8 text-indigo-600 dark:text-indigo-400" />,
       title: "Progress Tracking",
       description: "Monitor your improvement over time with detailed analytics and performance metrics"
     }
@@ -76,9 +76,9 @@ const Index = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 transition-colors duration-300">
       {/* Header */}
-      <header className="bg-white/80 backdrop-blur-sm border-b sticky top-0 z-50" role="banner">
+      <header className="bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm border-b border-gray-200 dark:border-gray-700 sticky top-0 z-50 transition-colors duration-300" role="banner">
         <div className="container mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-3">
@@ -101,6 +101,10 @@ const Index = () => {
               <Button variant="ghost" onClick={() => navigate("/faq")} aria-label="Frequently asked questions">
                 FAQ
               </Button>
+              <Button variant="ghost" onClick={() => navigate("/contact")} aria-label="Contact us">
+                Contact
+              </Button>
+              <ThemeToggle />
               <Button variant="ghost" onClick={() => navigate("/login")} aria-label="Login to your account">
                 Login
               </Button>
@@ -110,21 +114,23 @@ const Index = () => {
             </nav>
 
             {/* Mobile Menu Button */}
-            <Button
-              variant="ghost"
-              size="sm"
-              className="md:hidden"
-              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
-              aria-expanded={isMobileMenuOpen}
-            >
-              {isMobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-            </Button>
+            <div className="md:hidden flex items-center gap-2">
+              <ThemeToggle />
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
+                aria-expanded={isMobileMenuOpen}
+              >
+                {isMobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+              </Button>
+            </div>
           </div>
 
           {/* Mobile Navigation */}
           {isMobileMenuOpen && (
-            <div className="md:hidden mt-4 pb-4 border-t pt-4" role="navigation" aria-label="Mobile navigation">
+            <div className="md:hidden mt-4 pb-4 border-t pt-4 animate-fade-in" role="navigation" aria-label="Mobile navigation">
               <nav className="flex flex-col space-y-2">
                 <Button variant="ghost" onClick={() => navigate("/how-it-works")} className="justify-start">
                   How It Works
@@ -134,6 +140,9 @@ const Index = () => {
                 </Button>
                 <Button variant="ghost" onClick={() => navigate("/faq")} className="justify-start">
                   FAQ
+                </Button>
+                <Button variant="ghost" onClick={() => navigate("/contact")} className="justify-start">
+                  Contact
                 </Button>
                 <Button variant="ghost" onClick={() => navigate("/login")} className="justify-start">
                   Login
@@ -150,13 +159,13 @@ const Index = () => {
       {/* Hero Section */}
       <section className="py-20 px-6" role="main">
         <div className="container mx-auto text-center max-w-4xl">
-          <Badge className="mb-6 bg-blue-100 text-blue-700 hover:bg-blue-200">
+          <Badge className="mb-6 bg-blue-100 text-blue-700 hover:bg-blue-200 dark:bg-blue-800 dark:text-blue-200 dark:hover:bg-blue-700">
             Next-Generation AI Interview Preparation
           </Badge>
           <h2 className="text-5xl font-bold mb-6 bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-600 bg-clip-text text-transparent leading-tight">
             Master Interviews with Advanced AI Analysis
           </h2>
-          <p className="text-xl text-gray-600 mb-8 leading-relaxed">
+          <p className="text-xl text-gray-600 dark:text-gray-400 mb-8 leading-relaxed">
             Experience cutting-edge interview preparation with real-time voice analysis, comprehensive performance metrics, 
             and personalized feedback that adapts to your unique style and career goals.
           </p>
@@ -193,11 +202,11 @@ const Index = () => {
       </section>
 
       {/* Features Section */}
-      <section className="py-20 px-6 bg-white/50" aria-labelledby="features-heading">
+      <section className="py-20 px-6 bg-white/50 dark:bg-gray-900/50 transition-colors duration-300" aria-labelledby="features-heading">
         <div className="container mx-auto">
           <div className="text-center mb-16">
             <h3 id="features-heading" className="text-3xl font-bold mb-4">Advanced AI-Powered Features</h3>
-            <p className="text-gray-600 max-w-2xl mx-auto">
+            <p className="text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
               Experience the next generation of interview preparation with cutting-edge AI technology that analyzes every aspect of your performance.
             </p>
           </div>
@@ -205,13 +214,13 @@ const Index = () => {
           {/* Features Grid */}
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
             {features.map((feature, index) => (
-              <Card key={index} className="hover:shadow-lg transition-all duration-300 hover:-translate-y-1 border-0 bg-white/80 backdrop-blur-sm">
+              <Card key={index} className="hover:shadow-lg transition-all duration-300 hover:-translate-y-1 border-0 bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm">
                 <CardHeader>
                   <div className="mb-4" aria-hidden="true">{feature.icon}</div>
                   <CardTitle className="text-xl">{feature.title}</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <CardDescription className="text-gray-600 leading-relaxed">
+                  <CardDescription className="text-gray-600 dark:text-gray-400 leading-relaxed">
                     {feature.description}
                   </CardDescription>
                 </CardContent>
@@ -251,21 +260,21 @@ const Index = () => {
         <div className="container mx-auto">
           <div className="text-center mb-16">
             <h3 id="testimonials-heading" className="text-3xl font-bold mb-4">Success Stories</h3>
-            <p className="text-gray-600">See how INTELLI-PREP has helped professionals land their dream jobs</p>
+            <p className="text-gray-600 dark:text-gray-400">See how INTELLI-PREP has helped professionals land their dream jobs</p>
           </div>
           <div className="grid md:grid-cols-3 gap-8">
             {testimonials.map((testimonial, index) => (
-              <Card key={index} className="hover:shadow-lg transition-all duration-300 bg-gradient-to-br from-white to-blue-50 border-0">
+              <Card key={index} className="hover:shadow-lg transition-all duration-300 bg-gradient-to-br from-white to-blue-50 dark:from-gray-800 dark:to-gray-900 border-0">
                 <CardContent className="p-6">
                   <div className="flex mb-4" aria-label={`${testimonial.rating} out of 5 stars`}>
                     {[...Array(testimonial.rating)].map((_, i) => (
                       <Star key={i} className="h-5 w-5 fill-yellow-400 text-yellow-400" aria-hidden="true" />
                     ))}
                   </div>
-                  <blockquote className="text-gray-700 mb-4 italic">"{testimonial.comment}"</blockquote>
+                  <blockquote className="text-gray-700 dark:text-gray-300 mb-4 italic">"{testimonial.comment}"</blockquote>
                   <cite className="not-italic">
                     <p className="font-semibold">{testimonial.name}</p>
-                    <p className="text-sm text-gray-600">{testimonial.role}</p>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">{testimonial.role}</p>
                   </cite>
                 </CardContent>
               </Card>
@@ -295,7 +304,7 @@ const Index = () => {
       </section>
 
       {/* Footer */}
-      <footer className="bg-gray-900 text-white py-12 px-6" role="contentinfo">
+      <footer className="bg-gray-900 dark:bg-gray-950 text-white py-12 px-6 transition-colors duration-300" role="contentinfo">
         <div className="container mx-auto">
           <div className="grid md:grid-cols-4 gap-8 mb-8">
             <div className="col-span-2">
@@ -323,7 +332,7 @@ const Index = () => {
               <h4 className="font-semibold mb-4">Support</h4>
               <ul className="space-y-2 text-gray-400" role="list">
                 <li><Button variant="link" className="p-0 h-auto text-gray-400 hover:text-white" onClick={() => navigate("/faq")}>FAQ</Button></li>
-                <li><Button variant="link" className="p-0 h-auto text-gray-400 hover:text-white">Contact Us</Button></li>
+                <li><Button variant="link" className="p-0 h-auto text-gray-400 hover:text-white" onClick={() => navigate("/contact")}>Contact Us</Button></li>
                 <li><Button variant="link" className="p-0 h-auto text-gray-400 hover:text-white">Support</Button></li>
               </ul>
             </div>
