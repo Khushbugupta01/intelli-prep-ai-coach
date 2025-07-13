@@ -1,4 +1,5 @@
 
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -9,23 +10,16 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    /* Core Brand Colors - Teal & Orange Palette */
-    --color-primary-teal: 180 100% 35%;
-    --color-primary-orange: 24 100% 50%;
-    --color-accent-coral: 14 88% 65%;
-    --color-accent-lime: 75 70% 60%;
-    
-    /* Light Theme Variables */
     --background: 0 0% 100%;
     --foreground: 0 0% 9%;
 
-    --card: 0 0% 98%;
+    --card: 0 0% 100%;
     --card-foreground: 0 0% 9%;
 
     --popover: 0 0% 100%;
     --popover-foreground: 0 0% 9%;
 
-    --primary: var(--color-primary-teal);
+    --primary: 24 100% 50%;
     --primary-foreground: 0 0% 98%;
 
     --secondary: 0 0% 96%;
@@ -34,7 +28,7 @@ All colors MUST be HSL.
     --muted: 0 0% 96%;
     --muted-foreground: 0 0% 45%;
 
-    --accent: var(--color-accent-coral);
+    --accent: 24 100% 50%;
     --accent-foreground: 0 0% 98%;
 
     --destructive: 0 84% 60%;
@@ -42,23 +36,29 @@ All colors MUST be HSL.
 
     --border: 0 0% 89%;
     --input: 0 0% 89%;
-    --ring: var(--color-primary-teal);
+    --ring: 24 100% 50%;
 
     --radius: 0.5rem;
 
     --sidebar-background: 0 0% 98%;
+
     --sidebar-foreground: 0 0% 9%;
-    --sidebar-primary: var(--color-primary-teal);
+
+    --sidebar-primary: 24 100% 50%;
+
     --sidebar-primary-foreground: 0 0% 98%;
-    --sidebar-accent: var(--color-accent-coral);
+
+    --sidebar-accent: 24 100% 50%;
+
     --sidebar-accent-foreground: 0 0% 98%;
+
     --sidebar-border: 0 0% 89%;
-    --sidebar-ring: var(--color-primary-teal);
+
+    --sidebar-ring: 24 100% 50%;
   }
 
   .dark {
-    /* Dark Theme Variables */
-    --background: 0 0% 6%;
+    --background: 0 0% 9%;
     --foreground: 0 0% 98%;
 
     --card: 0 0% 9%;
@@ -67,38 +67,32 @@ All colors MUST be HSL.
     --popover: 0 0% 9%;
     --popover-foreground: 0 0% 98%;
 
-    --primary: var(--color-primary-teal);
+    --primary: 24 100% 50%;
     --primary-foreground: 0 0% 98%;
 
-    --secondary: 0 0% 12%;
+    --secondary: 0 0% 15%;
     --secondary-foreground: 0 0% 98%;
 
-    --muted: 0 0% 12%;
-    --muted-foreground: 0 0% 75%;
+    --muted: 0 0% 15%;
+    --muted-foreground: 0 0% 64%;
 
-    --accent: var(--color-accent-lime);
-    --accent-foreground: 0 0% 9%;
+    --accent: 24 100% 50%;
+    --accent-foreground: 0 0% 98%;
 
     --destructive: 0 63% 31%;
     --destructive-foreground: 0 0% 98%;
 
-    --border: 0 0% 20%;
-    --input: 0 0% 20%;
-    --ring: var(--color-primary-teal);
-    
-    --sidebar-background: 0 0% 8%;
+    --border: 0 0% 15%;
+    --input: 0 0% 15%;
+    --ring: 24 100% 50%;
+    --sidebar-background: 0 0% 6%;
     --sidebar-foreground: 0 0% 96%;
-    --sidebar-primary: var(--color-primary-teal);
+    --sidebar-primary: 24 100% 50%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: var(--color-accent-lime);
-    --sidebar-accent-foreground: 0 0% 9%;
+    --sidebar-accent: 24 100% 50%;
+    --sidebar-accent-foreground: 0 0% 98%;
     --sidebar-border: 0 0% 16%;
-    --sidebar-ring: var(--color-primary-teal);
-  }
-
-  /* Smooth theme transitions */
-  * {
-    transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+    --sidebar-ring: 24 100% 50%;
   }
 }
 
@@ -112,9 +106,3 @@ All colors MUST be HSL.
   }
 }
 
-/* Support for system preference */
-@media (prefers-color-scheme: dark) {
-  :root:not(.light) {
-    @apply dark;
-  }
-}
