@@ -1,352 +1,342 @@
-import { useState } from "react";
+import { ThemeToggle } from "@/components/ThemeToggle";
+import { FeedbackPopup } from "@/components/FeedbackPopup";
+import { HeroSection } from "@/components/HeroSection";
+import { BentoGrid } from "@/components/BentoGrid";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { ThemeToggle } from "@/components/ThemeToggle";
-import { Brain, Mic, FileText, BarChart3, Users, Award, ArrowRight, CheckCircle, Star, Play, Eye, Target, Menu, X } from "lucide-react";
-import { toast } from "sonner";
+import { Brain, Target, BarChart3, Users, Star, CheckCircle, ArrowRight, Menu, X } from "lucide-react";
+import { useState, useEffect } from "react";
 
 const Index = () => {
   const navigate = useNavigate();
-  const [isStarting, setIsStarting] = useState(false);
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
 
-  const handleStartInterview = async () => {
-    setIsStarting(true);
-    toast.success("Initializing your interview preparation session...");
-    setTimeout(() => {
-      navigate("/dashboard");
-      setIsStarting(false);
-    }, 1500);
-  };
-
-  const features = [
-    {
-      icon: <Brain className="h-8 w-8 text-blue-600 dark:text-blue-400" />,
-      title: "AI-Powered Analysis",
-      description: "Advanced AI algorithms analyze your responses for grammar, fluency, and confidence levels"
-    },
-    {
-      icon: <Mic className="h-8 w-8 text-green-600 dark:text-green-400" />,
-      title: "Voice & Text Input",
-      description: "Practice with both voice recordings and text responses for maximum flexibility"
-    },
-    {
-      icon: <FileText className="h-8 w-8 text-purple-600 dark:text-purple-400" />,
-      title: "Resume Analysis",
-      description: "Upload your resume to generate personalized interview questions tailored to your experience"
-    },
-    {
-      icon: <BarChart3 className="h-8 w-8 text-orange-600 dark:text-orange-400" />,
-      title: "Detailed Performance Reports",
-      description: "Comprehensive feedback reports with actionable insights and improvement recommendations"
-    },
-    {
-      icon: <Users className="h-8 w-8 text-red-600 dark:text-red-400" />,
-      title: "HR & Technical Interviews",
-      description: "Practice both behavioral and technical interview scenarios across various industries"
-    },
-    {
-      icon: <Award className="h-8 w-8 text-indigo-600 dark:text-indigo-400" />,
-      title: "Progress Tracking",
-      description: "Monitor your improvement over time with detailed analytics and performance metrics"
-    }
-  ];
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 50);
+    };
+    
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   const testimonials = [
     {
       name: "Sarah Chen",
       role: "Software Engineer at Google",
-      comment: "INTELLI-PREP helped me land my dream job! The AI feedback was incredibly accurate and actionable.",
+      content: "This platform helped me land my dream job! The AI feedback was incredibly detailed and actionable.",
       rating: 5
     },
     {
-      name: "Michael Rodriguez",
+      name: "Marcus Johnson",
       role: "Product Manager at Meta",
-      comment: "The personalized questions based on my resume were spot-on. This platform is a game-changer!",
+      content: "The mock interviews felt so real. I gained confidence and improved my storytelling skills significantly.",
       rating: 5
     },
     {
-      name: "Emily Watson",
-      role: "Data Scientist at Netflix",
-      comment: "The confidence analysis feature really helped me improve my presentation skills and interview performance.",
+      name: "Emily Rodriguez",
+      role: "UX Designer at Apple",
+      content: "Amazing tool for interview prep. The personalized feedback helped me identify and fix my weaknesses.",
       rating: 5
     }
   ];
 
+  const features = [
+    {
+      icon: Brain,
+      title: "AI-Powered Mock Interviews",
+      description: "Practice with our advanced AI that adapts to your industry and role, providing realistic interview scenarios."
+    },
+    {
+      icon: Target,
+      title: "Personalized Feedback",
+      description: "Get detailed analysis of your responses, body language, and speech patterns with actionable improvement tips."
+    },
+    {
+      icon: BarChart3,
+      title: "Progress Tracking",
+      description: "Monitor your improvement over time with comprehensive analytics and performance insights."
+    },
+    {
+      icon: Users,
+      title: "Industry-Specific Practice",
+      description: "Access tailored questions for tech, finance, healthcare, and other major industries."
+    }
+  ];
+
+  const menuItems = [
+    { label: "Home", href: "/" },
+    { label: "How It Works", href: "/how-it-works" },
+    { label: "Pricing", href: "/pricing" },
+    { label: "FAQ", href: "/faq" },
+    { label: "Contact", href: "/contact" },
+  ];
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 transition-colors duration-300">
-      {/* Header */}
-      <header className="bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm border-b border-gray-200 dark:border-gray-700 sticky top-0 z-50 transition-colors duration-300" role="banner">
-        <div className="container mx-auto px-6 py-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-3">
-              <div className="h-10 w-10 bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg flex items-center justify-center">
-                <Brain className="h-6 w-6 text-white" aria-hidden="true" />
-              </div>
-              <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-                INTELLI-PREP
-              </h1>
+    <div className="min-h-screen bg-background">
+      {/* Navigation */}
+      <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+        isScrolled ? 'bg-background/95 backdrop-blur-md shadow-lg' : 'bg-transparent'
+      }`}>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between items-center h-16">
+            {/* Logo */}
+            <div className="flex items-center">
+              <Brain className="h-8 w-8 text-primary mr-2" />
+              <span className="text-xl font-bold text-foreground">InterviewAce</span>
             </div>
 
             {/* Desktop Navigation */}
-            <nav className="hidden md:flex items-center space-x-8" role="navigation" aria-label="Main navigation">
-              <Button variant="ghost" onClick={() => navigate("/how-it-works")} aria-label="Learn how INTELLI-PREP works">
-                How It Works
+            <div className="hidden md:flex items-center space-x-8">
+              {menuItems.map((item) => (
+                <button
+                  key={item.label}
+                  onClick={() => navigate(item.href)}
+                  className="text-foreground hover:text-primary transition-colors duration-200 font-medium"
+                >
+                  {item.label}
+                </button>
+              ))}
+            </div>
+
+            {/* Desktop Actions */}
+            <div className="hidden md:flex items-center space-x-4">
+              <Button variant="ghost" onClick={() => navigate("/login")}>
+                Sign In
               </Button>
-              <Button variant="ghost" onClick={() => navigate("/pricing")} aria-label="View pricing plans">
-                Pricing
-              </Button>
-              <Button variant="ghost" onClick={() => navigate("/faq")} aria-label="Frequently asked questions">
-                FAQ
-              </Button>
-              <Button variant="ghost" onClick={() => navigate("/contact")} aria-label="Contact us">
-                Contact
+              <Button variant="coral" onClick={() => navigate("/signup")}>
+                Get Started
               </Button>
               <ThemeToggle />
-              <Button variant="ghost" onClick={() => navigate("/login")} aria-label="Login to your account">
-                Login
-              </Button>
-              <Button onClick={() => navigate("/signup")} className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700" aria-label="Create new account">
-                Sign Up
-              </Button>
-            </nav>
+            </div>
 
             {/* Mobile Menu Button */}
-            <div className="md:hidden flex items-center gap-2">
+            <div className="md:hidden flex items-center space-x-2">
               <ThemeToggle />
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
-                aria-expanded={isMobileMenuOpen}
+              <button
+                onClick={() => setIsMenuOpen(!isMenuOpen)}
+                className="text-foreground hover:text-primary transition-colors duration-200"
+                aria-label="Toggle menu"
               >
-                {isMobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-              </Button>
+                {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+              </button>
             </div>
           </div>
 
           {/* Mobile Navigation */}
-          {isMobileMenuOpen && (
-            <div className="md:hidden mt-4 pb-4 border-t pt-4 animate-fade-in" role="navigation" aria-label="Mobile navigation">
-              <nav className="flex flex-col space-y-2">
-                <Button variant="ghost" onClick={() => navigate("/how-it-works")} className="justify-start">
-                  How It Works
-                </Button>
-                <Button variant="ghost" onClick={() => navigate("/pricing")} className="justify-start">
-                  Pricing
-                </Button>
-                <Button variant="ghost" onClick={() => navigate("/faq")} className="justify-start">
-                  FAQ
-                </Button>
-                <Button variant="ghost" onClick={() => navigate("/contact")} className="justify-start">
-                  Contact
-                </Button>
-                <Button variant="ghost" onClick={() => navigate("/login")} className="justify-start">
-                  Login
-                </Button>
-                <Button onClick={() => navigate("/signup")} className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 justify-start">
-                  Sign Up
-                </Button>
-              </nav>
+          {isMenuOpen && (
+            <div className="md:hidden bg-background border-t border-border">
+              <div className="px-2 pt-2 pb-3 space-y-1">
+                {menuItems.map((item) => (
+                  <button
+                    key={item.label}
+                    onClick={() => {
+                      navigate(item.href);
+                      setIsMenuOpen(false);
+                    }}
+                    className="block w-full text-left px-3 py-2 text-foreground hover:text-primary hover:bg-accent/50 rounded-md transition-colors duration-200"
+                  >
+                    {item.label}
+                  </button>
+                ))}
+                <div className="flex space-x-2 px-3 py-2">
+                  <Button variant="ghost" size="sm" onClick={() => navigate("/login")}>
+                    Sign In
+                  </Button>
+                  <Button variant="coral" size="sm" onClick={() => navigate("/signup")}>
+                    Get Started
+                  </Button>
+                </div>
+              </div>
             </div>
           )}
         </div>
-      </header>
+      </nav>
 
-      {/* Hero Section */}
-      <section className="py-20 px-6" role="main">
-        <div className="container mx-auto text-center max-w-4xl">
-          <Badge className="mb-6 bg-blue-100 text-blue-700 hover:bg-blue-200 dark:bg-blue-800 dark:text-blue-200 dark:hover:bg-blue-700">
-            Next-Generation AI Interview Preparation
-          </Badge>
-          <h2 className="text-5xl font-bold mb-6 bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-600 bg-clip-text text-transparent leading-tight">
-            Master Interviews with Advanced AI Analysis
-          </h2>
-          <p className="text-xl text-gray-600 dark:text-gray-400 mb-8 leading-relaxed">
-            Experience cutting-edge interview preparation with real-time voice analysis, comprehensive performance metrics, 
-            and personalized feedback that adapts to your unique style and career goals.
-          </p>
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <Button 
-              size="lg" 
-              onClick={handleStartInterview}
-              disabled={isStarting}
-              className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-lg px-8 py-3 h-auto"
-              aria-label="Launch interview preparation dashboard"
-            >
-              {isStarting ? (
-                "Initializing AI..."
-              ) : (
-                <>
-                  <Play className="mr-2 h-5 w-5" aria-hidden="true" />
-                  Launch Dashboard
-                  <ArrowRight className="ml-2 h-5 w-5" aria-hidden="true" />
-                </>
-              )}
-            </Button>
-            <Button 
-              variant="outline" 
-              size="lg"
-              onClick={() => navigate("/upload")}
-              className="text-lg px-8 py-3 h-auto border-2"
-              aria-label="Upload your resume for personalized questions"
-            >
-              <FileText className="mr-2 h-5 w-5" aria-hidden="true" />
-              Upload Resume
-            </Button>
-          </div>
-        </div>
-      </section>
+      <div className="pt-16">
 
-      {/* Features Section */}
-      <section className="py-20 px-6 bg-white/50 dark:bg-gray-900/50 transition-colors duration-300" aria-labelledby="features-heading">
-        <div className="container mx-auto">
-          <div className="text-center mb-16">
-            <h3 id="features-heading" className="text-3xl font-bold mb-4">Advanced AI-Powered Features</h3>
-            <p className="text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-              Experience the next generation of interview preparation with cutting-edge AI technology that analyzes every aspect of your performance.
-            </p>
-          </div>
-          
-          {/* Features Grid */}
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
-            {features.map((feature, index) => (
-              <Card key={index} className="hover:shadow-lg transition-all duration-300 hover:-translate-y-1 border-0 bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm">
-                <CardHeader>
-                  <div className="mb-4" aria-hidden="true">{feature.icon}</div>
-                  <CardTitle className="text-xl">{feature.title}</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <CardDescription className="text-gray-600 dark:text-gray-400 leading-relaxed">
-                    {feature.description}
-                  </CardDescription>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
+        {/* Hero Section */}
+        <HeroSection />
 
-          {/* Advanced Features */}
-          <div className="grid md:grid-cols-3 gap-6">
-            <Card className="bg-gradient-to-br from-blue-600 to-purple-600 text-white">
-              <CardContent className="p-6">
-                <Eye className="h-8 w-8 mb-4" aria-hidden="true" />
-                <h3 className="text-xl font-bold mb-2">Real-time Analysis</h3>
-                <p className="text-blue-100">Live feedback on communication skills, confidence levels, and presentation during your interview practice.</p>
-              </CardContent>
-            </Card>
-            <Card className="bg-gradient-to-br from-green-600 to-blue-600 text-white">
-              <CardContent className="p-6">
-                <Brain className="h-8 w-8 mb-4" aria-hidden="true" />
-                <h3 className="text-xl font-bold mb-2">Advanced Scoring</h3>
-                <p className="text-green-100">Multi-dimensional analysis of verbal and non-verbal communication patterns with detailed scoring metrics.</p>
-              </CardContent>
-            </Card>
-            <Card className="bg-gradient-to-br from-purple-600 to-pink-600 text-white">
-              <CardContent className="p-6">
-                <Target className="h-8 w-8 mb-4" aria-hidden="true" />
-                <h3 className="text-xl font-bold mb-2">Performance Tracking</h3>
-                <p className="text-purple-100">Comprehensive dashboard with progress analytics and personalized improvement suggestions.</p>
-              </CardContent>
-            </Card>
+        {/* Bento Grid Dashboard Preview */}
+        <section className="py-20 px-4 bg-muted/20">
+          <div className="max-w-7xl mx-auto">
+            <div className="text-center mb-16">
+              <h2 className="text-3xl md:text-4xl font-bold mb-4 text-foreground">
+                Your Personal Interview Coach
+              </h2>
+              <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+                Experience our intuitive dashboard designed to nurture your growth and track your progress.
+              </p>
+            </div>
+            <BentoGrid />
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* Testimonials */}
-      <section className="py-20 px-6" aria-labelledby="testimonials-heading">
-        <div className="container mx-auto">
-          <div className="text-center mb-16">
-            <h3 id="testimonials-heading" className="text-3xl font-bold mb-4">Success Stories</h3>
-            <p className="text-gray-600 dark:text-gray-400">See how INTELLI-PREP has helped professionals land their dream jobs</p>
-          </div>
-          <div className="grid md:grid-cols-3 gap-8">
-            {testimonials.map((testimonial, index) => (
-              <Card key={index} className="hover:shadow-lg transition-all duration-300 bg-gradient-to-br from-white to-blue-50 dark:from-gray-800 dark:to-gray-900 border-0">
-                <CardContent className="p-6">
-                  <div className="flex mb-4" aria-label={`${testimonial.rating} out of 5 stars`}>
-                    {[...Array(testimonial.rating)].map((_, i) => (
-                      <Star key={i} className="h-5 w-5 fill-yellow-400 text-yellow-400" aria-hidden="true" />
-                    ))}
-                  </div>
-                  <blockquote className="text-gray-700 dark:text-gray-300 mb-4 italic">"{testimonial.comment}"</blockquote>
-                  <cite className="not-italic">
-                    <p className="font-semibold">{testimonial.name}</p>
-                    <p className="text-sm text-gray-600 dark:text-gray-400">{testimonial.role}</p>
-                  </cite>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* CTA Section */}
-      <section className="py-20 px-6 bg-gradient-to-r from-blue-600 to-purple-600 text-white">
-        <div className="container mx-auto text-center">
-          <h3 className="text-3xl font-bold mb-4">Ready to Ace Your Next Interview?</h3>
-          <p className="text-xl mb-8 text-blue-100">
-            Join thousands of professionals who have improved their interview skills with INTELLI-PREP
-          </p>
-          <Button 
-            size="lg" 
-            variant="secondary"
-            onClick={handleStartInterview}
-            className="bg-white text-blue-600 hover:bg-gray-100 text-lg px-8 py-3 h-auto"
-            aria-label="Get started with interview preparation"
-          >
-            Get Started Today
-            <ArrowRight className="ml-2 h-5 w-5" aria-hidden="true" />
-          </Button>
-        </div>
-      </section>
-
-      {/* Footer */}
-      <footer className="bg-gray-900 dark:bg-gray-950 text-white py-12 px-6 transition-colors duration-300" role="contentinfo">
-        <div className="container mx-auto">
-          <div className="grid md:grid-cols-4 gap-8 mb-8">
-            <div className="col-span-2">
-              <div className="flex items-center space-x-3 mb-4">
-                <div className="h-8 w-8 bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg flex items-center justify-center">
-                  <Brain className="h-5 w-5 text-white" aria-hidden="true" />
-                </div>
-                <span className="text-xl font-bold">INTELLI-PREP</span>
-              </div>
-              <p className="text-gray-400 mb-4">
-                Advanced AI-powered interview preparation platform helping professionals land their dream jobs with confidence.
+        {/* Features Section */}
+        <section className="py-20 px-4">
+          <div className="max-w-7xl mx-auto">
+            <div className="text-center mb-16">
+              <h2 className="text-3xl md:text-4xl font-bold mb-4 text-foreground">
+                Everything You Need to Succeed
+              </h2>
+              <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+                Our comprehensive platform provides all the tools and insights you need to excel in any interview.
               </p>
             </div>
             
-            <div>
-              <h4 className="font-semibold mb-4">Product</h4>
-              <ul className="space-y-2 text-gray-400" role="list">
-                <li><Button variant="link" className="p-0 h-auto text-gray-400 hover:text-white" onClick={() => navigate("/how-it-works")}>How It Works</Button></li>
-                <li><Button variant="link" className="p-0 h-auto text-gray-400 hover:text-white" onClick={() => navigate("/pricing")}>Pricing</Button></li>
-                <li><Button variant="link" className="p-0 h-auto text-gray-400 hover:text-white" onClick={() => navigate("/dashboard")}>Dashboard</Button></li>
-              </ul>
+            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+              {features.map((feature, index) => (
+                <div 
+                  key={index}
+                  className="group p-6 bg-card rounded-xl border border-border hover:shadow-lg transition-all duration-300 hover:-translate-y-1 neumorphic"
+                >
+                  <div className="w-12 h-12 bg-primary/20 rounded-lg flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
+                    <feature.icon className="h-6 w-6 text-primary" />
+                  </div>
+                  <h3 className="text-xl font-semibold mb-3 text-foreground">{feature.title}</h3>
+                  <p className="text-muted-foreground leading-relaxed">{feature.description}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Testimonials Section */}
+        <section className="py-20 px-4 bg-muted/20">
+          <div className="max-w-7xl mx-auto">
+            <div className="text-center mb-16">
+              <h2 className="text-3xl md:text-4xl font-bold mb-4 text-foreground">
+                Loved by Job Seekers Worldwide
+              </h2>
+              <p className="text-xl text-muted-foreground">
+                Join thousands who've transformed their interview skills and landed their dream jobs.
+              </p>
             </div>
             
-            <div>
-              <h4 className="font-semibold mb-4">Support</h4>
-              <ul className="space-y-2 text-gray-400" role="list">
-                <li><Button variant="link" className="p-0 h-auto text-gray-400 hover:text-white" onClick={() => navigate("/faq")}>FAQ</Button></li>
-                <li><Button variant="link" className="p-0 h-auto text-gray-400 hover:text-white" onClick={() => navigate("/contact")}>Contact Us</Button></li>
-                <li><Button variant="link" className="p-0 h-auto text-gray-400 hover:text-white">Support</Button></li>
-              </ul>
+            <div className="grid md:grid-cols-3 gap-8">
+              {testimonials.map((testimonial, index) => (
+                <div 
+                  key={index}
+                  className="p-6 glass-card rounded-xl hover:shadow-lg transition-all duration-300 neumorphic"
+                >
+                  <div className="flex mb-4">
+                    {[...Array(testimonial.rating)].map((_, i) => (
+                      <Star key={i} className="h-5 w-5 text-accent fill-current" />
+                    ))}
+                  </div>
+                  <p className="text-muted-foreground mb-4 leading-relaxed">"{testimonial.content}"</p>
+                  <div>
+                    <div className="font-semibold text-foreground">{testimonial.name}</div>
+                    <div className="text-sm text-muted-foreground">{testimonial.role}</div>
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
-          
-          <div className="border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center">
-            <p className="text-gray-400">© 2024 INTELLI-PREP. All rights reserved.</p>
-            <div className="flex space-x-4 mt-4 md:mt-0">
-              <Button variant="link" className="p-0 h-auto text-gray-400 hover:text-white">Privacy Policy</Button>
-              <Button variant="link" className="p-0 h-auto text-gray-400 hover:text-white">Terms of Service</Button>
+        </section>
+
+        {/* CTA Section */}
+        <section className="py-20 px-4 bg-primary text-primary-foreground">
+          <div className="max-w-4xl mx-auto text-center">
+            <h2 className="text-3xl md:text-4xl font-bold mb-6">
+              Ready to Ace Your Next Interview?
+            </h2>
+            <p className="text-xl mb-8 opacity-90">
+              Join thousands of successful candidates who've used our platform to land their dream jobs.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Button 
+                size="lg" 
+                variant="secondary"
+                className="px-8 py-4 text-lg font-semibold rounded-xl"
+                onClick={() => navigate("/signup")}
+              >
+                Get Started Free
+              </Button>
+              <Button 
+                size="lg" 
+                variant="outline"
+                className="px-8 py-4 text-lg rounded-xl border-primary-foreground text-primary-foreground hover:bg-primary-foreground hover:text-primary"
+                onClick={() => navigate("/pricing")}
+              >
+                View Pricing
+              </Button>
             </div>
           </div>
-        </div>
-      </footer>
+        </section>
+
+        {/* Footer */}
+        <footer className="bg-muted/50 py-12 px-4">
+          <div className="max-w-7xl mx-auto">
+            <div className="grid md:grid-cols-4 gap-8">
+              <div>
+                <div className="flex items-center mb-4">
+                  <Brain className="h-8 w-8 text-primary mr-2" />
+                  <span className="text-xl font-bold text-foreground">InterviewAce</span>
+                </div>
+                <p className="text-muted-foreground">
+                  Empowering job seekers with AI-powered interview practice and feedback.
+                </p>
+              </div>
+              
+              <div>
+                <h3 className="font-semibold mb-4 text-foreground">Product</h3>
+                <div className="space-y-2">
+                  <button onClick={() => navigate("/how-it-works")} className="block text-muted-foreground hover:text-primary transition-colors">
+                    How It Works
+                  </button>
+                  <button onClick={() => navigate("/pricing")} className="block text-muted-foreground hover:text-primary transition-colors">
+                    Pricing
+                  </button>
+                  <button onClick={() => navigate("/faq")} className="block text-muted-foreground hover:text-primary transition-colors">
+                    FAQ
+                  </button>
+                </div>
+              </div>
+              
+              <div>
+                <h3 className="font-semibold mb-4 text-foreground">Support</h3>
+                <div className="space-y-2">
+                  <button onClick={() => navigate("/contact")} className="block text-muted-foreground hover:text-primary transition-colors">
+                    Contact Us
+                  </button>
+                  <a href="#" className="block text-muted-foreground hover:text-primary transition-colors">
+                    Help Center
+                  </a>
+                  <a href="#" className="block text-muted-foreground hover:text-primary transition-colors">
+                    Privacy Policy
+                  </a>
+                </div>
+              </div>
+              
+              <div>
+                <h3 className="font-semibold mb-4 text-foreground">Connect</h3>
+                <div className="space-y-2">
+                  <a href="#" className="block text-muted-foreground hover:text-primary transition-colors">
+                    Twitter
+                  </a>
+                  <a href="#" className="block text-muted-foreground hover:text-primary transition-colors">
+                    LinkedIn
+                  </a>
+                  <a href="#" className="block text-muted-foreground hover:text-primary transition-colors">
+                    Blog
+                  </a>
+                </div>
+              </div>
+            </div>
+            
+            <div className="border-t border-border mt-8 pt-8 text-center">
+              <p className="text-muted-foreground">
+                © 2024 InterviewAce. All rights reserved.
+              </p>
+            </div>
+          </div>
+        </footer>
+      </div>
+
+      <FeedbackPopup />
     </div>
   );
 };
